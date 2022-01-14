@@ -1,0 +1,28 @@
+#ifndef __ASPECT_LOG__
+#define __ASPECT_LOG__
+
+#include <iostream>
+#include <fstream>
+#include "Etudiant.h" 
+
+aspect AspectLogging {
+
+  // execution de l'aspect just apres 
+  // l'apple au method ecrireReleve() de la class Etudient
+
+  // advice call("% Etudiant::ecrireReleve()") : before() {
+  // }
+    pointcut logging(TextTable t) = execution("% Etudiant::logFile(...)") 
+    && args(t); 
+    advice logging(t) : after(TextTable t) { 
+
+        std::ofstream file;
+        file.open("./releves.txt", std::ios::app);
+        file << t << std::endl;
+        file << "---------------------------------------------------" << std::endl << std::endl;
+        file.close();
+}
+
+};
+
+#endif
